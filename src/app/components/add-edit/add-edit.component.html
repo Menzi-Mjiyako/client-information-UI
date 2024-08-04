@@ -1,0 +1,183 @@
+<div class="container mt-4">
+  <div class="card shadow-sm">
+    <div class="card-body">
+      <form [formGroup]="clientForm" (ngSubmit)="save()">
+        <div formGroupName="client">
+          <div class="form-group">
+            <label for="firstName">First Name</label>
+            <input
+              type="text"
+              id="firstName"
+              class="form-control"
+              formControlName="firstName"
+            />
+            <div *ngIf="clientForm.get('client.firstName')?.invalid && clientForm.get('client.firstName')?.touched">
+              First Name is required
+            </div>
+            <br />
+
+            <label for="lastName">Last Name</label>
+            <input
+              type="text"
+              id="lastName"
+              class="form-control"
+              formControlName="lastName"
+            />
+            <div *ngIf="clientForm.get('client.lastName')?.invalid && clientForm.get('client.lastName')?.touched">
+              Last Name is required
+            </div>
+            <br />
+
+            <label for="dateOfBirth">Date</label>
+            <input
+              type="date"
+              id="dateOfBirth"
+              class="form-control"
+              formControlName="dateOfBirth"
+            />
+            <div *ngIf="clientForm.get('client.dateOfBirth')?.invalid && clientForm.get('client.dateOfBirth')?.touched">
+              Date is required
+            </div>
+            <br />
+
+            <label for="gender">Gender</label>
+            <input
+              type="text"
+              id="gender"
+              class="form-control"
+              formControlName="gender"
+            />
+            <br />
+
+            <label for="idNumber">Id Number</label>
+            <input
+              type="text"
+              id="idNumber"
+              class="form-control"
+              formControlName="idNumber"
+            />
+            <div *ngIf="clientForm.get('client.idNumber')?.invalid && clientForm.get('client.idNumber')?.touched">
+              Id Number is required and must be max 13 characters
+            </div>
+            <br />
+          </div>
+
+          <div formArrayName="addresses" class="form-group">
+            <label>Address :</label>
+            <div *ngFor="let add of addresses.controls; let i = index" [formGroupName]="i">
+              <label for="street">Street</label>
+              <input
+                type="text"
+                id="street"
+                class="form-control"
+                formControlName="street"
+              />
+              <div *ngIf="add.get('street')?.invalid && add.get('street')?.touched">
+                Street is required
+              </div>
+              <br />
+
+              <label for="city">City</label>
+              <input
+                type="text"
+                id="city"
+                class="form-control"
+                formControlName="city"
+              />
+              <div *ngIf="add.get('city')?.invalid && add.get('city')?.touched">
+                City is required
+              </div>
+              <br />
+
+              <label for="postalCode">Postal Code</label>
+              <input
+                type="text"
+                id="postalCode"
+                class="form-control"
+                formControlName="postalCode"
+              />
+              <div *ngIf="add.get('postalCode')?.invalid && add.get('postalCode')?.touched">
+                Postal Code is required and must be max 4 characters
+              </div>
+              <br />
+
+              <label for="province">Province</label>
+              <input
+                type="text"
+                id="province"
+                class="form-control"
+                formControlName="province"
+              />
+              <div *ngIf="add.get('province')?.invalid && add.get('province')?.touched">
+                Province is required
+              </div>
+              <br />
+
+              <button type="button" class="btn btn-danger" (click)="removeAddress(i)">Remove</button>
+              <br />
+            </div>
+            <button type="button" class="btn btn-primary mt-2" (click)="addAddress()">Add Address</button>
+          </div>
+
+          <div formArrayName="contactInformation" class="form-group">
+            <label>Contacts :</label>
+            <div *ngFor="let con of contactInformation.controls; let j = index" [formGroupName]="j">
+              <label for="cellPhoneNumber">Cell PhoneNumber</label>
+              <input
+                type="text"
+                id="cellPhoneNumber"
+                class="form-control"
+                formControlName="cellPhoneNumber"
+              />
+              <div *ngIf="con.get('cellPhoneNumber')?.invalid && con.get('cellPhoneNumber')?.touched">
+                Cell PhoneNumber is required
+              </div>
+              <br />
+
+              <label for="telePhoneNumber">TelePhoneNumber</label>
+              <input
+                type="text"
+                id="telePhoneNumber"
+                class="form-control"
+                formControlName="telePhoneNumber"
+              />
+              <div *ngIf="con.get('telePhoneNumber')?.invalid && con.get('telePhoneNumber')?.touched">
+                TelePhoneNumber is required
+              </div>
+              <br />
+
+              <label for="workPhoneNumber">Work PhoneNumber</label>
+              <input
+                type="text"
+                id="workPhoneNumber"
+                class="form-control"
+                formControlName="workPhoneNumber"
+              />
+              <div *ngIf="con.get('workPhoneNumber')?.invalid && con.get('workPhoneNumber')?.touched">
+                Work PhoneNumber is required
+              </div>
+              <br />
+
+              <label for="emailAddress">Email Address</label>
+              <input
+                type="text"
+                id="emailAddress"
+                class="form-control"
+                formControlName="emailAddress"
+              />
+              <div *ngIf="con.get('emailAddress')?.invalid && con.get('emailAddress')?.touched">
+                Email Address is required
+              </div>
+              <br />
+
+              <button type="button" class="btn btn-danger" (click)="removeContact(j)">Remove</button>
+              <br />
+            </div>
+            <button type="button" class="btn btn-primary mt-2" (click)="addContact()">Add Contact</button>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary mt-2">Save</button>
+      </form>
+    </div>
+  </div>
+</div>

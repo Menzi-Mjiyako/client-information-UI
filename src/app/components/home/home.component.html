@@ -1,0 +1,20 @@
+<div class="container mt-4">
+      <button class="btn " (click)="addCard()"><i class="bi bi-plus"> Add </i></button>
+    <div class="row">
+      <div class="col-md-4" *ngFor="let card of cards.clients">
+        <div class="card mb-4 shadow-sm">
+          <div class="card-body">
+            <p class="card-text">{{ card.firstName}} {{card.lastName }}</p>
+            <div class="d-flex justify-content-between align-items-center">
+              <div class="btn-group">
+                <button type="button" class="btn btn-sm btn-outline-secondary" (click)="editCard(card.id)">Edit</button>
+              </div>
+              <i class="bi bi-person" style="font-size: 3.5rem;"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button class="btn" (click)="exportData()"><i class="bi bi-download"> Export Data </i></button>
+  </div>
+  
