@@ -40,3 +40,7 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
+/.vs/client-information-UI/FileContentIndex
+/.vs/client-information-UI/v17/TestStore/0
+/.vs/slnx.sqlite
+/.vs/ProjectSettings.json

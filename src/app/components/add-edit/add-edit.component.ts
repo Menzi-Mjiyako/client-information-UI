@@ -1,13 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, FormsModule, NgModel, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ClientInformationService } from '../../services/client-information.service';
 import { Subject, takeUntil } from 'rxjs';
 import { SingleClientResponse } from '../../models/single-client-response';
 import { ClientInformationDto } from '../../models/client-information-dto';
-import { NewPersonRequest } from '../../models/new-person-request';
-
 @Component({
   selector: 'app-add-edit',
   templateUrl: './add-edit.component.html',
@@ -29,6 +27,9 @@ export class AddEditComponent implements OnInit {
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
+
+    this.initForm();
+
     if (id) {
       // Fetch the card details by id, for now using dummy data
       this.clientService
@@ -44,30 +45,6 @@ export class AddEditComponent implements OnInit {
           }
         );
     }
-    else {
-      this.clientForm = this.formBuilder.group({
-        client: this.formBuilder.group({
-          firstName: ['', Validators.required],
-          lastName: ['', Validators.required],
-          dateOfBirth: ['', Validators.required],
-          gender: ['', Validators.required],
-          idNumber: ['', [Validators.required, Validators.maxLength(13)]],
-          addresses: this.formBuilder.array([{
-            street: ['', Validators.required],
-            city: ['', Validators.required],
-            postalCode: ['', [Validators.required, Validators.maxLength(4)]],
-            province: ['', Validators.required]
-          }]),
-          contactInformation: this.formBuilder.array([{
-            cellPhoneNumber: ['', Validators.required],
-            telePhoneNumber: ['', Validators.required],
-            workPhoneNumber: ['', Validators.required],
-            emailAddress: ['', [Validators.required, Validators.email]]
-          }])
-        })
-      });
-    }
-
     if (!this.card.client.dateOfBirth) {
       const today = new Date();
       this.card.client.dateOfBirth = today.toISOString().split('T')[0];
@@ -87,7 +64,7 @@ export class AddEditComponent implements OnInit {
     client.patchValue({
       firstName: clientData.firstName,
       lastName: clientData.lastName,
-      dateOfBirth: clientData.dateOfBirth,
+      dateOfBirth: new Date(clientData.dateOfBirth).toISOString().split('T')[0],
       gender: clientData.gender,
       idNumber: clientData.idNumber
     });
@@ -96,48 +73,72 @@ export class AddEditComponent implements OnInit {
     this.setContactInformation(clientData.contactInformation);
   }
 
-  setAddresses(addresses: any[]): void {
-    const addressFormArray = this.clientForm.get('client.addresses') as FormArray;
-    addresses.forEach(address => {
-      addressFormArray.push(this.formBuilder.group({
-        street: [address.street, Validators.required],
-        city: [address.city, Validators.required],
-        postalCode: [address.postalCode, [Validators.required, Validators.maxLength(4)]],
-        province: [address.province, Validators.required]
-      }));
+  initForm(): void {
+    this.clientForm = this.formBuilder.group({
+      client: this.formBuilder.group({
+        firstName: ['', Validators.required],
+        lastName: ['', Validators.required],
+        dateOfBirth: ['', Validators.required],
+        gender: ['', Validators.required],
+        idNumber: ['', [Validators.required, Validators.maxLength(13)]],
+        addresses: this.formBuilder.array([this.createAddress()]),
+        contactInformation: this.formBuilder.array([this.createContact()])
+      })
     });
+  }
+
+  createAddress(): FormGroup {
+    return this.formBuilder.group({
+      street: ['', Validators.required],
+      city: ['', Validators.required],
+      postalCode: ['', [Validators.required, Validators.maxLength(4)]],
+      province: ['', Validators.required]
+    });
+  }
+
+  createContact(): FormGroup {
+    return this.formBuilder.group({
+      cellPhoneNumber: ['', Validators.required],
+      telePhoneNumber: [''],
+      workPhoneNumber: [''],
+      emailAddress: ['', [Validators.required, Validators.email]]
+    });
+  }
+
+  setAddresses(addresses: any[]): void {
+        const addressFormArray = this.clientForm.get('client.addresses') as FormArray;
+    addressFormArray.clear();
+    addresses.forEach(address => {
+      addressFormArray.push(this.createAddress());
+    });
+    addressFormArray.patchValue(addresses);
   }
 
   setContactInformation(contactInformation: any[]): void {
     const contactFormArray = this.clientForm.get('client.contactInformation') as FormArray;
+    contactFormArray.clear();
     contactInformation.forEach(contact => {
-      contactFormArray.push(this.formBuilder.group({
-        cellPhoneNumber: [contact.cellPhoneNumber, Validators.required],
-        telePhoneNumber: [contact.telePhoneNumber, Validators.required],
-        workPhoneNumber: [contact.workPhoneNumber, Validators.required],
-        emailAddress: [contact.emailAddress, [Validators.required, Validators.email]]
-      }));
+      contactFormArray.push(this.createContact());
     });
+    contactFormArray.patchValue(contactInformation);
   }
 
 
   save(): void {
-    this.card.client.dateOfBirth = new Date(this.card.client.dateOfBirth).toISOString().split('T')[0];
+    let client = this.clientForm.getRawValue().client as ClientInformationDto;
+
     if (this.card.client.id) {
       this.clientService
         .updateClient({
-          clientId: this.card.client.id,
-          clientInformationEdit: this.card.client,
+          clientId: client.id,
+          clientInformationEdit: client,
         })
         .subscribe(() => {
           this.router.navigate(['/']);
         });
     } else {
-      const clientinformationDto = {
-        ...this.card.client,
-      } as ClientInformationDto;
       this.clientService
-        .createClient({ clientInformation: clientinformationDto })
+        .createClient({ clientInformation: client })
         .subscribe(() => {
           this.router.navigate(['/']);
         });
