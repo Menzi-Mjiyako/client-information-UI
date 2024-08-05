@@ -11,7 +11,7 @@
               class="form-control"
               formControlName="firstName"
             />
-            <div *ngIf="clientForm.get('client.firstName')?.invalid && clientForm.get('client.firstName')?.touched">
+            <div *ngIf="clientForm.get('client.firstName')?.invalid && clientForm.get('client.firstName')?.touched" class="text-danger">
               First Name is required
             </div>
             <br />
@@ -23,7 +23,7 @@
               class="form-control"
               formControlName="lastName"
             />
-            <div *ngIf="clientForm.get('client.lastName')?.invalid && clientForm.get('client.lastName')?.touched">
+            <div *ngIf="clientForm.get('client.lastName')?.invalid && clientForm.get('client.lastName')?.touched" class="text-danger">
               Last Name is required
             </div>
             <br />
@@ -35,7 +35,7 @@
               class="form-control"
               formControlName="dateOfBirth"
             />
-            <div *ngIf="clientForm.get('client.dateOfBirth')?.invalid && clientForm.get('client.dateOfBirth')?.touched">
+            <div *ngIf="clientForm.get('client.dateOfBirth')?.invalid && clientForm.get('client.dateOfBirth')?.touched" class="text-danger">
               Date is required
             </div>
             <br />
@@ -56,7 +56,7 @@
               class="form-control"
               formControlName="idNumber"
             />
-            <div *ngIf="clientForm.get('client.idNumber')?.invalid && clientForm.get('client.idNumber')?.touched">
+            <div *ngIf="clientForm.get('client.idNumber')?.invalid && clientForm.get('client.idNumber')?.touched" class="text-danger">
               Id Number is required and must be max 13 characters
             </div>
             <br />
@@ -72,7 +72,7 @@
                 class="form-control"
                 formControlName="street"
               />
-              <div *ngIf="add.get('street')?.invalid && add.get('street')?.touched">
+              <div *ngIf="add.get('street')?.invalid && add.get('street')?.touched" class="text-danger">
                 Street is required
               </div>
               <br />
@@ -84,7 +84,7 @@
                 class="form-control"
                 formControlName="city"
               />
-              <div *ngIf="add.get('city')?.invalid && add.get('city')?.touched">
+              <div *ngIf="add.get('city')?.invalid && add.get('city')?.touched" class="text-danger">
                 City is required
               </div>
               <br />
@@ -96,7 +96,7 @@
                 class="form-control"
                 formControlName="postalCode"
               />
-              <div *ngIf="add.get('postalCode')?.invalid && add.get('postalCode')?.touched">
+              <div *ngIf="add.get('postalCode')?.invalid && add.get('postalCode')?.touched" class="text-danger">
                 Postal Code is required and must be max 4 characters
               </div>
               <br />
@@ -108,7 +108,7 @@
                 class="form-control"
                 formControlName="province"
               />
-              <div *ngIf="add.get('province')?.invalid && add.get('province')?.touched">
+              <div *ngIf="add.get('province')?.invalid && add.get('province')?.touched" class="text-danger">
                 Province is required
               </div>
               <br />
@@ -129,7 +129,7 @@
                 class="form-control"
                 formControlName="cellPhoneNumber"
               />
-              <div *ngIf="con.get('cellPhoneNumber')?.invalid && con.get('cellPhoneNumber')?.touched">
+              <div *ngIf="con.get('cellPhoneNumber')?.invalid && con.get('cellPhoneNumber')?.touched" class="text-danger">
                 Cell PhoneNumber is required
               </div>
               <br />
@@ -141,7 +141,7 @@
                 class="form-control"
                 formControlName="telePhoneNumber"
               />
-              <div *ngIf="con.get('telePhoneNumber')?.invalid && con.get('telePhoneNumber')?.touched">
+              <div *ngIf="con.get('telePhoneNumber')?.invalid && con.get('telePhoneNumber')?.touched" class="text-danger">
                 TelePhoneNumber is required
               </div>
               <br />
@@ -153,7 +153,7 @@
                 class="form-control"
                 formControlName="workPhoneNumber"
               />
-              <div *ngIf="con.get('workPhoneNumber')?.invalid && con.get('workPhoneNumber')?.touched">
+              <div *ngIf="con.get('workPhoneNumber')?.invalid && con.get('workPhoneNumber')?.touched" class="text-danger">
                 Work PhoneNumber is required
               </div>
               <br />
@@ -165,7 +165,7 @@
                 class="form-control"
                 formControlName="emailAddress"
               />
-              <div *ngIf="con.get('emailAddress')?.invalid && con.get('emailAddress')?.touched">
+              <div *ngIf="con.get('emailAddress')?.invalid && con.get('emailAddress')?.touched" class="text-danger">
                 Email Address is required
               </div>
               <br />

@@ -125,6 +125,11 @@ export class AddEditComponent implements OnInit {
 
 
   save(): void {
+    if (this.clientForm.invalid) {
+      this.clientForm.markAllAsTouched();
+      return;
+    }
+
     let client = this.clientForm.getRawValue().client as ClientInformationDto;
 
     if (this.card.client.id) {
